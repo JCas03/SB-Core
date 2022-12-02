@@ -1,0 +1,265 @@
+Springboot Agenda:
+
+12/3
+
+-- SB Core
+	-- What is AOP?
+		-- Aspect-Oriented Programming entails breaking down program logic into distinct parts called so-called concerns.
+
+	-- Spring Initializer
+
+	-- What is the Spring Bean Life Cycle?
+		--  When we run the program then, first of all, the spring container gets started. After that, the container creates the instance of a bean as per the request, and then 					dependencies are injected. And finally, the bean is destroyed when the spring container is closed.
+		-- What are Springboot Scopes?
+			-- Spring Bean Scopes allows us to have more granular control of the bean instances creation.
+	
+	-- What is a Springboot Container?
+		-- The Spring container is at the core of the Spring Framework. The container will create the objects, wire them together, configure them, and manage their complete life cycle 				from creation till destruction.
+
+	-- What is SB Starter Dependency?
+		-- Spring Boot Starters are dependency descriptors that can be added under the <dependencies> section in pom.xml.
+
+	-- what is SB Auto Configuration?
+		-- Spring Boot auto-configuration attempts to automatically configure your Spring application based on the jar dependencies that you have added. 
+
+	-- what is @SpringBootApplication?
+		--  @SpringBootApplication annotation is used to mark a configuration class that declares one or more @Bean methods and also triggers auto-configuration and component scanning
+
+	-- what is Spring boot actuator?
+		-- Spring Boot's 'Actuator' dependency is used to monitor and manage the Spring web application. 
+
+	-- What is IOC?
+		-- Spring IoC is the mechanism to achieve loose-coupling between Objects dependencies
+
+	-- What is DI?
+		-- The Spring-Core module is responsible for injecting dependencies through either Constructor or Setter methods.
+
+	-- What is Autowiring?
+		-- Autowiring feature of spring framework enables you to inject the object dependency implicitly.
+
+
+	
+	
+	
+
+
+Topics To cover:
+
+AOP
+	-- what is AOP? Why do you need it? What problem does it solve?
+		--  Aspect-Oriented Programming entails breaking down program logic into distinct parts called so-called concerns. The functions that span multiple points of an application are 				called cross-cutting concerns and these cross-cutting concerns are conceptually separate from the application's business logic.
+		-- Solves Cross-cutting concerns
+
+	-- What is Cross-cutting? WHat are 3 typical CC concerns?
+		-- The cross-cutting concern is a concern which is applicable throughout the application. This affects the entire application. 
+		-- For example, logging, security and data transfer are the concerns needed in almost every module of an application, thus they are the cross-cutting concerns
+
+	-- How does Spring solve a cross cutting concern?
+		-- Spring uses proxy objects to implement the method invocation interception part of AOP. Such proxy objects wrap the original Spring bean and intercepts method invocations as 				specified by the set of pointcuts defined by the cross cutting concern.
+
+	-- What is a proxy object?
+		-- Proxy is a structural design pattern that provides an object that acts as a substitute for a real service object used by a client
+
+	-- What is a Pointcut, join point, advice, an aspect, weaving, target object, AOP Proxy?
+		-- Aspect: An aspect is a class that implements enterprise application concerns that cut across multiple classes,trasaction management
+		-- Join Point: A join point is a specific point in the application such as method execution, exception handling, changing object variable values, etc. In Spring AOP a join point 					is always the execution of a method.
+		-- Advice: Advices are actions taken for a particular join point. In terms of programming, they are methods that get executed when a certain join point with matching pointcut is 			reached in the application. 
+		-- Pointcut: Pointcut is expressions that are matched with join points to determine whether advice needs to be executed or not.
+		-- Target Object: They are the object on which advices are applied.
+		-- AOP proxy: Spring AOP implementation uses JDK dynamic proxy to create the Proxy classes with target classes and advice invocations, these are called AOP proxy classes.
+		-- Weaving: It is the process of linking aspects with other objects to create the advised proxy objects. This can be done at compile time, load time or at runtime. Spring AOP 				performs weaving at the runtime.
+
+	-- What are AOP Advice Types?
+		-- Before Advice: These advices runs before the execution of join point methods. We can use @Before annotation to mark an advice type as Before advice.
+		-- After (finally) Advice: An advice that gets executed after the join point method finishes executing, whether normally or by throwing an exception. We can create after advice 				using @After annotation.
+		-- After Returning Advice: Sometimes we want advice methods to execute only if the join point method executes normally. We can use @AfterReturning annotation to mark a method as 			after returning advice.
+		-- After Throwing Advice: This advice gets executed only when join point method throws exception, we can use it to rollback the transaction declaratively. We use @AfterThrowing 				annotation for this type of advice.
+		-- Around Advice: This is the most important and powerful advice. This advice surrounds the join point method and we can also choose whether to execute the join point method or 				not. We can write advice code that gets executed before and after the execution of the join point method. It is the responsibility of around advice to invoke the join point 			method and return values if the method is returning something. We use @Around annotation to create around advice methods.
+		-- What is CGLIB?
+			-- CGLIB is a powerful, high performance code generation library. It is widely used behind the scenes in proxy-based Aspect Oriented Programming (AOP) frameworks, such as 					Spring AOP and dynaop, to provide method interceptions.
+
+	-- show AOP example
+
+Spring Bean LifeCycle
+	-- What is the flow of the SBLC?
+		-- Container Started -->> Bean Instatiated -->> Dependencies Injected -->> Custom init() method -->> Custom Utility method -->> Custom destroy() method
+
+	-- Show SBLC Example
+
+	-- What is spring bean? Who creates and instance of Spring Bean?
+		--  A bean is an object that is instantiated, assembled, and otherwise managed by a Spring IoC container.
+
+	-- What is the default bean scope in Spring?
+		-- Singleton (the Spring container creates only one instance of the bean) 
+
+	-- What does the @bean annotation do?
+		-- Applied on a method to specify that it returns a bean to be managed by Spring context
+
+	-- What is the Default bean ID if you only use @bean? How can you override this?
+		-- When using @Bean without specifying name or alias, the default bean ID will be created based on the name of the method which was annotated with @Bean annotation
+		-- You can override this behaviour by specifying name or aliases for the bean
+		-- @Bean(name = "newBeanName")
+
+	-- How do @Configuration Classes support singleton Beans?
+		-- Spring supports Singleton beans in @Configuration class by creating a proxy that intercepts calls to the method then checks -->> 
+			-- If the instance of the bean exists, then call to the method is not allowed and the already existing instance is returned.
+			-- If the instance does not exist, then call is allowed, the bean is created and the instance is returned and saved for future reuse.
+	-- Can you make the @Bean method final in spring?
+		-- A class annotated with @Configuration cannot be final because Spring will use CGLIB to create a proxy for @Configuration class. CGLIB creates subclass for each class that is 				supposed to be proxied, however since the final class cannot have subclass CGLIB will fail.
+	-- Can you use @Bean together with @Profile?
+		-- The @Profile annotation is also used with @Bean to dynamically activate the specific bean based on the profile value
+	-- Can you use @Component together with @Profile?
+		--  @Profile annotation can be used together with @Component on top of the class representing spring bean.
+	-- what are bean scopes which are only available in spring mvc?
+		-- Singleton
+
+		-- Prototype
+			--  prototype scope of bean deployment results in the creation of a new bean instance every time a request for that specific bean is made
+
+		-- request
+
+			-- <bean id="loginAction" class="com.foo.LoginAction" scope="request"/>
+			-- With the above bean definition in place, the Spring container will create a brand new instance of the LoginAction bean using the 'loginAction' bean definition for each and 				every HTTP request.
+		-- session
+			-- <bean id="userPreferences" class="com.foo.UserPreferences" scope="session"/>
+			-- With the above bean definition in place, the Spring container will create a brand new instance of the UserPreferences bean using the 'userPreferences' bean definition for 				the lifetime of a single HTTP Session. 
+		-- global session
+
+	-- Show Scopes Example
+Spring Boot Container
+	-- The container will create the objects, wire them together, configure them, and manage their complete life cycle from creation till destruction.
+	-- The Spring container uses DI to manage the components that make up an application. (Spring Beans)
+	-- The container gets its instructions on what objects to instantiate, configure, and assemble by reading the configuration metadata provided
+	--  The configuration metadata can be represented either by XML, Java annotations, or Java code
+	-- Pojo classes -->> Spring Container -->> Ready Application
+							^Meta Data
+
+Spring Boot Actuator
+	-- What value does Spring Boot Actuator provide?
+		-- Spring Boot actuator allows you to monitor and interact with your application which is very important for a production application. Without a spring boot actuator, you need to 			build your own monitoring and interaction system using JMX. Spring boot provides this out-of-box. You can now dynamically change the log level and perform such an operation 			without restarting your Java and Spring boot applications.
+
+	-- What are the two protocols you can use to access actuator endpoints?
+		-- Spring Boot allows you to access actuator endpoints using both HTTP and JMX
+
+	-- What are the actuator endpoints that are provided out of the box?
+		-- /Actuator - provides a hypermedia-based discovery page for all the other endpoints
+		-- /autoconfig - displays the auto-configuration report in two groups: positive matches and negative matches.
+		-- /beans - displays all the spring beans used in the application
+		-- /configprops - list all the configuration properties defined by the @ConfigurationProperties beans.
+		-- /docs - documentation for all the Actuator module endpoints, requires spring-boot-actuator-docs dependency in pom.xml
+		-- /dump - to get a thread dump of your application
+		-- /env - exposes all the properties from the Spring's ConfigurableEnvironment interface
+		-- /flyway - provides all the information about your database migration scripts; it's based on the Flyway project for database
+		-- /health - shows the health of the application
+		-- /info - displays the public application info
+		-- /logfile - shows the contents of the log file specified by the logging.file property
+		-- /metrics - Various metrics about the app
+		-- /caches - Check available caches
+
+	-- What is Health Indicator?
+		-- A Spring Boot Actuator Health Indicator provides health information of a Spring Boot Application ( If the app is running or not)
+
+	-- What is the Health Indicator status?
+		-- UP — The element or subsystem is working as expected
+		-- DOWN — The component is not working
+		-- OUT_OF_SERVICE — The component has been out of service temporarily
+		-- UNKNOWN — The component state is unknown
+
+	-- How do you change the Health Indicator status severity order?
+		-- You can use the property management.health.status.order to change your application's Health Indicator status severity.
+
+		-- management.health.status.order= BUSY, DOWN, OUT_OF_SERVICE, UNKNOWN, UP
+			management.health.status.http-mapping.FATAL=503
+
+	-- Show Actuator Example
+
+Container, Dependency, IOC
+	-- What is IOC?
+		-- Spring IoC is the mechanism to achieve loose-coupling between Objects dependencies. 
+		-- To achieve loose coupling and dynamic binding of the objects at runtime, objects' dependencies are injected by other assembler objects.
+	
+	-- What is applicationContext in Spring?
+		-- represents the Spring IoC container and is responsible for instantiating, configuring, and assembling the beans.
+	-- What is the diffrence between Bean Factory & Application Context?
+		-- While the BeanFactory provides basic functionality for managing and manipulating beans, often in a programmatic way, the ApplicationContext provides extra functionality like 				MessageSource, Access to resources, Event propagation to beans, Loading of multiple (hierarchical) contexts etc.
+	-- What is Component Scanning? How does spring do Component scanning?
+		-- we use the @ComponentScan annotation along with the @Configuration annotation to specify the packages that we want to be scanned.
+		--  @ComponentScan without arguments tells Spring to scan the current package and all of its sub-packages
+		-- 	@Configuration
+			@ComponentScan
+			public class SpringComponentScanApp {
+    			private static ApplicationContext applicationContext;
+
+	-- What is the preferred way to close app context? Does Spring boot do that for you?
+		-- For Spring Boot applications, context will be closed automatically. And this is done by registering the shutdown hook for the CLI applications.
+
+	-- What is DI? How does spring MVC implement it?
+		-- What is Dependency Injection?
+			-- Responsible for injecting dependencies through either Constructor or Setter methods (Show Examples)
+			-- Keeps the Java classes independent of each other
+			-- DI ensures loose coupling between classes
+				-- loose coupling: In simple words, loose coupling means they are mostly independent. If the only knowledge that class A has about class B, is what class B has exposed 					through its interface, then class A and class B are said to be loosely coupled.
+					-- Example:
+						public interface Topic
+						{
+    						void understand();
+						}
+						class Topic1 implements Topic {
+							public void understand()
+    							{
+        							System.out.println("Got it");
+   							}
+						} class Topic2 implements Topic {
+							public void understand()
+    							{
+    							    System.out.println("understand");
+    							}
+						} public class Subject {
+							public static void main(String[] args)
+    							{
+       							 Topic t = new Topic1();
+       							 t.understand();
+    							}
+						}
+					-- Explanation:  In the above example, Topic1 and Topic2 objects are loosely coupled. It means Topic is an interface and we can inject any of the implemented classes 									at run time and we can provide service to the end user.
+				-- Tight Coupling: In general, Tight coupling means the two classes often change together. In other words, if A knows more than it should about the way in which B was 						implemented, then A and B are tightly 	coupled.
+					-- Example:
+						class Subject {
+   						 Topic t = new Topic();
+   						 public void startReading()
+    							{
+        							t.understand();
+    							}
+						}
+						class Topic {
+    							public void understand()
+    							{
+        						System.out.println("Tight coupling concept");
+    							}
+						}
+					-- Explanation: 
+						-- In the above program the Subject class is dependents on Topic class. In the above program Subject class is tightly coupled with Topic class it means if any 							change in the Topic class requires Subject class to change. For example, if Topic class understand() method change to gotit() method then you have to 								change the startReading() method will call gotit() method instead of calling understand() method.
+		
+
+	-- What is the diffrence between Setter and Constructor injection? 
+		-- Setter injection in Spring uses setter methods like setDependency() to inject dependency on any bean managed by Spring's IOC container. On the other hand, constructor injection 			uses the constructor to inject dependency on any Spring-managed bean.
+		-- it is best to use Constructor injection due to its more strict nature
+
+	-- What is Autowiring?
+		-- Autowiring feature of spring framework enables you to inject the object dependency implicitly. It internally uses setter or constructor injection.
+
+	-- Show examples of injections 
+--
+12/4
+-- What are Spring boot Collections?
+	-- The types of Collections that are supported by Spring are List , Set , Map and Properties 
+-- SpringMVC
+-- Rest API
+-- Swagger
+-- Postman
+-- Log4J
+-- Junit
+-- Mockito
+
+12/5
+-- Spring Secutrity
