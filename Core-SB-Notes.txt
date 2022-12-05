@@ -252,10 +252,56 @@ Dependency, IOC
 --
 12/5
 -- What are Spring boot Collections?
-	-- The types of Collections that are supported by Spring are List , Set , Map and Properties 
+	-- The types of Collections that are supported by Spring are List , Set , Map  
+	-- What are lists?
+		-- A group of things 
+	-- What are Sets?
+		-- A set is simply a group of unique things. So, a significant characteristic of any set is that it does not contain duplicates.
+	-- What are Maps?
+		-- A Map is a collection of entries, and each entry is a collection of key-value pairs. To configure the entries and key values, spring provides an <entry> tag to represent the Map entry. And <entry> tag has two properties 			key and value <entry key=" " value=" "/>
+
 -- SpringMVC
+	-- What is Spring MVC?
+	-- Why Should we use spring MVC?
+		-- Spring MVC implements a clear separation of concerns that allows us to develop and unit test our applications easily.
+	-- What is a Model?
+		-- A model contains the data of the application. A data can be a single object or a collection of objects.
+	-- What is a View?  
+		-- A view represents the provided information in a particular format. Generally, JSP+JSTL is used to create a view page.
+	-- What is a Controller?  
+		--  A controller contains the business logic of an application. Here, the @Controller annotation is used to mark the class as the controller.
+	-- What is a Front controller?  
+		--  In Spring Web MVC, the DispatcherServlet class works as the front controller. It is responsible to manage the flow of the Spring MVC application.
+	-- What are the advantages of spring MVC?
+		-- Separate roles - The Spring MVC separates each role, where the model object, controller, command object, view resolver, DispatcherServlet, validator, etc. can be fulfilled by a specialized object.
+		-- Light-weight - It uses light-weight servlet container to develop and deploy your application.
+		-- Powerful Configuration - It provides a robust configuration for both framework and application classes that includes easy referencing across contexts, such as from web controllers to business objects and validators.
+		-- Rapid development - The Spring MVC facilitates fast and parallel development.
+		-- Reusable business code - Instead of creating new objects, it allows us to use the existing business objects.
+		-- Easy to test - In Spring, generally we create JavaBeans classes that enable you to inject test data using the setter methods.
+		-- Flexible Mapping - It provides the specific annotations that easily redirect the page.
+	-- Show Example
+
+	-- What is @Controller?
+		--  indicates that a particular class serves the role of a controller. Spring Controller annotation is typically used in combination with annotated handler methods based on the @RequestMapping annotation
+		-- The job of the @Controller is to create a Map of model object and find a view
+	
+	-- What is @RequestMapping
+		-- used to map web requests onto specific handler classes and/or handler methods
+
+	-- Show multiple view page example
+
+	-- show multiple controller example
+
+
 -- Rest API
--- Swagger
+	-- What is @RestController?
+		-- Spring RestController annotation is a convenience annotation that is itself annotated with @Controller and @ResponseBody
+		-- @RestController simply returns the object and object data is directly written into HTTP response as JSON or XML.
+		-- used for RESTful web services
+		-- show example
+-- What is Swagger
+	-- Swagger API is a set of open-source tools built to help programmers develop, design, document, and use REST APIs.
 -- Postman
 -- Log4J
 -- Junit
