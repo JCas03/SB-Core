@@ -29,7 +29,9 @@
     <version>3.0-alpha-1</version>  
 </dependency> 
   </dependencies>
+
   <build>
+
     <finalName>SpringMVCMultipleViewPage</finalName>
   </build>
 </project>
